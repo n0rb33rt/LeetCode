@@ -1,20 +1,36 @@
-// Bubble sort
 class Solution {
     public void sortColors(int[] nums) {
         int n = nums.length;
-        boolean swapped;
-        for(int i = 0; i<n-1;i++){
-           swapped = false;
-          for(int j = 0; j<n-i-1;j++){
-            if(nums[j]>nums[j+1]){
-                int temp = nums[j];
-                nums[j]=nums[j+1];
-                nums[j+1]=temp;
-                swapped = true;
-            }    
-          }
-          if(swapped==false)
-            break;  
+
+        for (int i = n / 2 - 1; i >= 0; i--) 
+            heapify(nums, n, i);
+
+        for (int i = n - 1; i >= 0; i--) {
+            int temp = nums[0];
+            nums[0] = nums[i];
+            nums[i] = temp;
+            heapify(nums, i, 0);
+        }
+    }
+
+
+    void heapify(int arr[], int n, int i) {
+        int largest = i; 
+        int leftChild = 2 * i + 1;
+        int rightChild = 2 * i + 2;
+        if (leftChild < n && arr[leftChild] > arr[largest]) 
+            largest = leftChild;
+      
+        if (rightChild < n && arr[rightChild] > arr[largest]) 
+            largest = rightChild;
+        
+
+      
+        if (largest != i) {
+            int swap = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = swap;
+            heapify(arr, n, largest);
         }
     }
 }
